@@ -6,3 +6,4 @@
   * [x] GET /notes
     * List all notes
 * [x] Run code - deno run --allow-net server.ts
+* [x] Connect to mongoDB
