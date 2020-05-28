@@ -29,3 +29,35 @@ export const getSingleNote = async (ctx: RouterContext) => {
     const note = await notesCollection.find({ _id: { $oid: id } });
     ctx.response.body = note;
 }
+
+export const updateNote = async (ctx: RouterContext) => {
+    const id = ctx.params.id;
+    const { value: { title, body } } = await ctx.request.body();
+    const { modifiedCount } = await notesCollection.updateOne({ _id: { $oid: id } }, {
+        $set: {
+            title,
+            body
+        }
+    });
+
+    if (!modifiedCount) {
+        ctx.response.status = 404;
+        ctx.response.body = { message: 'Note does not exist' };
+        return;
+    }
+
+    ctx.response.body = await notesCollection.findOne({ _id: { $oid: id } });
+}
+
+export const deleteNote = async (ctx: RouterContext) => {
+    const id = ctx.params.id;
+    const count = await notesCollection.deleteOne({ _id: { $oid: id } });
+
+    if (!count) {
+        ctx.response.status = 404;
+        ctx.response.body = { message: 'Note does not exist' };
+        return;
+    }
+
+    ctx.response.status = 204;
+}
