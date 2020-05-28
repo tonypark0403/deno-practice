@@ -1,5 +1,5 @@
 import { Application, Router } from "https://deno.land/x/oak/mod.ts";
-import { getNotes, createNote } from "./routes.ts";
+import { getNotes, createNote, getSingleNote } from "./routes.ts";
 
 const router = new Router();
 
@@ -8,7 +8,7 @@ router
         ctx.response.body = 'Welcome to notes API';
     })
     .get('/notes', getNotes)
-    // .get('/notes/:id', getSingleNote)
+    .get('/notes/:id', getSingleNote)
     .post('/notes', createNote)
 // .put('/notes/:id', updateNote)
 // .delete('/notes/:id', deletNote);
